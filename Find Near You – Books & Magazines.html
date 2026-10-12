@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Find Near You – Books &amp; Magazines</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7efdf;--card:#fffaf0;--ink:#3b2a1a;--soft:#7a5c3e;--brand:#b8895a;--brand2:#8c6239;--line:#e6d5b8;--wm:%23b8895a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1f15;--card:#37291b;--ink:#f3e7d0;--soft:#d3b98f;--line:#503c28}}
+:root[data-theme="dark"]{--bg:#2a1f15;--card:#37291b;--ink:#f3e7d0;--soft:#d3b98f;--line:#503c28}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background-color:var(--bg);color:var(--ink);font-family:Lato,Georgia,sans-serif;line-height:1.6;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cg fill='none' stroke='%23b8895a' stroke-width='2' opacity='.16' transform='rotate(-12 80 80)'%3E%3Cpath d='M40 52c14-6 28-6 40 2 12-8 26-8 40-2v58c-14-6-28-6-40 2-12-8-26-8-40-2z'/%3E%3Cpath d='M80 54v58'/%3E%3C/g%3E%3C/svg%3E")}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;margin:0 0 .4em;line-height:1.2}
+a{color:inherit}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--card);border-bottom:1px solid var(--line);padding:10px 5%;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--brand2);cursor:pointer}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button,.btn{font:inherit;border:0;cursor:pointer;border-radius:30px;padding:8px 16px;background:transparent;color:var(--ink);font-weight:700}
+nav button.on,nav button:hover{background:var(--brand);color:#fff}
+.btn{background:var(--brand2);color:#fff;padding:12px 26px;display:inline-block;text-decoration:none}
+.btn.alt{background:transparent;border:2px solid var(--brand2);color:var(--brand2)}
+.cartb{background:var(--line)}
+main{max-width:1100px;margin:auto;padding:30px 5% 50px}
+.page{display:none}.page.on{display:block;animation:f .5s}
+@keyframes f{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:30px 0}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem)}
+.hero p{color:var(--soft);font-size:1.1rem}
+.stack{position:relative;height:300px;display:flex;justify-content:center;align-items:center}
+.bk{width:130px;height:190px;border-radius:4px 10px 10px 4px;padding:14px 10px;color:#fff;font-family:'Playfair Display',serif;font-size:.95rem;display:flex;flex-direction:column;justify-content:space-between;box-shadow:6px 8px 18px rgba(60,40,20,.35),inset 6px 0 0 rgba(0,0,0,.18)}
+.stack .bk{position:absolute}
+.stack .bk:nth-child(1){transform:rotate(-14deg) translateX(-80px);background:#8c6239}
+.stack .bk:nth-child(2){transform:rotate(-2deg);background:#b8895a;z-index:2;width:150px;height:220px}
+.stack .bk:nth-child(3){transform:rotate(12deg) translateX(80px);background:#6b4a2b}
+.bk small{opacity:.8;font-family:Lato}
+.quote{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--brand);border-radius:12px;padding:22px 26px;margin:26px 0;font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic}
+.quote span{display:block;font-size:.85rem;font-style:normal;color:var(--soft);margin-top:6px;font-family:Lato}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;transition:.25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 12px 24px rgba(90,60,30,.18)}
+.card .bk{width:100%;height:170px;margin-bottom:12px}
+.card h3{font-size:1.05rem;margin:0}
+.card p{margin:2px 0 8px;color:var(--soft);font-size:.9rem}
+.price{display:flex;justify-content:space-between;align-items:center}
+.price b{font-size:1.15rem;color:var(--brand2)}
+.price button{font:inherit;font-weight:700;border:0;background:var(--brand);color:#fff;border-radius:20px;padding:6px 14px;cursor:pointer}
+.old{text-decoration:line-through;color:var(--soft);font-size:.85rem;margin-left:4px;font-weight:400}
+.tag{display:inline-block;background:var(--line);border-radius:20px;padding:2px 10px;font-size:.75rem;color:var(--soft)}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:30px 0}
+.feat div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center}
+.feat i{font-style:normal;font-size:2rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px}
+.filters button{font:inherit;border:1px solid var(--brand);background:transparent;color:var(--ink);border-radius:20px;padding:6px 16px;cursor:pointer}
+.filters button.on{background:var(--brand);color:#fff}
+.reader{display:grid;grid-template-columns:240px 1fr;gap:22px}
+.shelf{display:flex;flex-direction:column;gap:8px}
+.shelf button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer}
+.shelf button.on{background:var(--brand);color:#fff}
+.paper{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 32px;font-family:Georgia,serif}
+.paper h2{margin-bottom:2px}
+.tools{display:flex;gap:8px;align-items:center;margin:10px 0 16px;color:var(--soft);font-size:.9rem}
+.tools button{border:1px solid var(--brand);background:transparent;color:var(--ink);border-radius:8px;padding:2px 12px;cursor:pointer;font:inherit}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;margin:4px 0 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+label{font-weight:700;font-size:.9rem}
+footer{background:var(--brand2);color:#fff;text-align:center;padding:26px 5%}
+footer a{color:#fff}
+#drawer{position:fixed;right:-380px;top:0;bottom:0;width:min(360px,100%);background:var(--card);border-left:1px solid var(--line);z-index:50;padding:calc(20px + env(safe-area-inset-top,0px)) 20px 20px;transition:.35s;overflow:auto}
+#drawer.on{right:0}
+.li{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:8px 0}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,80px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:30px;transition:.3s;z-index:60}
+#toast.on{transform:translate(-50%,0)}
+@media(max-width:760px){.hero,.reader,.two{grid-template-columns:1fr}.stack{height:260px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" onclick="go('home')">📖 Find Near You</div>
+  <nav id="nav">
+    <button data-p="home" class="on">Home</button>
+    <button data-p="shop">Shop Books</button>
+    <button data-p="read">Read Online</button>
+    <button data-p="contact">Sell &amp; Contact</button>
+    <button class="cartb" onclick="drawer(1)">🛒 Cart (<span id="cc">0</span>)</button>
+  </nav>
+</header>
+
+<main>
+<!-- HOME -->
+<section class="page on" id="home">
+  <div class="hero">
+    <div>
+      <span class="tag">Buy · Sell · Read</span>
+      <h1>A good book is always waiting near you.</h1>
+      <p>Find Near You is your friendly neighbourhood book corner. Buy new and pre-loved books and magazines at pocket-friendly prices, sell the ones you have finished, or read timeless classics right here.</p>
+      <p><button class="btn" onclick="go('shop')">Browse Books</button> <button class="btn alt" onclick="go('read')">Start Reading</button></p>
+    </div>
+    <div class="stack">
+      <div class="bk">Little Stories<small>Fiction</small></div>
+      <div class="bk">Find Near You<small>Your next read</small></div>
+      <div class="bk">Quiet Mornings<small>Poetry</small></div>
+    </div>
+  </div>
+  <div class="quote">“A book is a small door that opens onto a whole sky.”<span>— For every reader who needs a quiet escape</span></div>
+  <div class="feat">
+    <div><i>💰</i><h3>Affordable Prices</h3><p>Books from just ₹49. Great reads should never be a luxury.</p></div>
+    <div><i>♻️</i><h3>Sell Your Books</h3><p>Give finished books a second life and earn something back.</p></div>
+    <div><i>📰</i><h3>Magazines Too</h3><p>Lifestyle, travel, science, and kids’ magazines every month.</p></div>
+    <div><i>🌐</i><h3>Read Online</h3><p>Free classics to read on any screen, any time.</p></div>
+  </div>
+  <h2>Reader Favourites</h2>
+  <div class="grid" id="fav"></div>
+  <div class="quote">“Every page you turn is a friend you have not met yet.”<span>— Happy reading</span></div>
+</section>
+
+<!-- SHOP -->
+<section class="page" id="shop">
+  <h1>Shop Books &amp; Magazines</h1>
+  <p style="color:var(--soft)">Hand-picked titles at honest prices. Add to cart and send your order by email.</p>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="all"></div>
+  <div class="quote">“Buy the book you want today; the story will thank you tomorrow.”<span>— Find Near You</span></div>
+</section>
+
+<!-- READ -->
+<section class="page" id="read">
+  <h1>Reading Room</h1>
+  <p style="color:var(--soft)">Pick a title from the shelf and read a free sample. Adjust the text size to suit your eyes.</p>
+  <div class="reader">
+    <div class="shelf" id="shelf"></div>
+    <div class="paper">
+      <h2 id="rt"></h2><small id="ra" style="color:var(--soft)"></small>
+      <div class="tools">Text size: <button onclick="fs(-1)">A−</button><button onclick="fs(1)">A+</button><button onclick="document.getElementById('rb').style.fontFamily='Lato'">Sans</button><button onclick="document.getElementById('rb').style.fontFamily='Georgia'">Serif</button></div>
+      <div id="rb" style="font-size:1.15rem"></div>
+    </div>
+  </div>
+  <div class="quote">“Reading is how we travel without leaving our favourite chair.”<span>— Find Near You</span></div>
+</section>
+
+<!-- CONTACT -->
+<section class="page" id="contact">
+  <h1>Sell Your Books &amp; Contact Us</h1>
+  <div class="two">
+    <div class="box">
+      <h3>Sell or Request a Book</h3>
+      <label>Your name</label><input id="n" placeholder="Your name">
+      <label>I want to</label>
+      <select id="t"><option>Sell my books</option><option>Request a book or magazine</option><option>Ask a question</option></select>
+      <label>Book / magazine details</label><textarea id="m" rows="4" placeholder="Title, author, condition, expected price…"></textarea>
+      <button class="btn" onclick="mail()">Send by Email</button>
+    </div>
+    <div class="box">
+      <h3>About Find Near You</h3>
+      <p>We started with a simple idea: books should be easy to find, easy to afford, and easy to pass on. Whether you love novels, textbooks, comics, or magazines, there is a seat for you at our shelf.</p>
+      <p><b>Email us:</b><br>📧 <a href="mailto:findnearyou@gmail.com">findnearyou@gmail.com</a></p>
+      <p style="color:var(--soft)">We reply to every message, usually within a day.</p>
+      <div class="quote" style="margin:10px 0 0;font-size:1rem">“Come for a book, stay for the story.”<span>— The Find Near You team</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <b style="font-family:'Playfair Display',serif;font-size:1.2rem">📖 Find Near You</b>
+  <div>Books · Magazines · Reading · Selling</div>
+  <div>✉ <a href="mailto:findnearyou@gmail.com">findnearyou@gmail.com</a></div>
+  <small>© 2026 Find Near You. Happy reading!</small>
+</footer>
+
+<aside id="drawer">
+  <h3>Your Cart</h3><div id="items"></div>
+  <p><b>Total: ₹<span id="tot">0</span></b></p>
+  <button class="btn" onclick="order()">Order by Email</button>
+  <button class="btn alt" onclick="drawer(0)">Close</button>
+</aside>
+<div id="toast"></div>
+
+<script>
+const C=['#8c6239','#b8895a','#6b4a2b','#a1764a','#7d5a38','#c19a6b'];
+const B=[
+['Midnight Library Tales','Fiction','Novel',149,249],['Garden of Small Joys','Fiction','Novel',129,199],
+['The Quiet Mountain','Fiction','Novel',139,229],['Pocket Poems','Poetry','Poetry',79,129],
+['Smart Money Basics','Non-Fiction','Self-help',169,299],['Tiny Habits, Big Days','Non-Fiction','Self-help',159,279],
+['Tales for Little Dreamers','Kids','Story book',99,149],['Animal Alphabet','Kids','Picture book',69,99],
+['Travel Diaries India','Magazine','Monthly',99,120],['Science Today','Magazine','Monthly',89,110],
+['Home & Garden Digest','Magazine','Monthly',79,100],['Pre-loved Classic Bundle','Second-hand','3 books',199,399],
+['Exam Success Guide','Study','Guide',119,199],['Old Bookshop Mystery','Fiction','Mystery',49,99]];
+const R=[
+['Pride and Prejudice','Jane Austen','It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.\n\nHowever little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters.'],
+['Alice in Wonderland','Lewis Carroll','Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”'],
+['Sherlock Holmes','Arthur Conan Doyle','To Sherlock Holmes she is always the woman. I have seldom heard him mention her under any other name. In his eyes she eclipses and predominates the whole of her sex.'],
+['Magazine Corner: Reading Habits','Find Near You','Ten pages a day is a book a month. Keep a book beside your bed, one in your bag, and a magazine for tea time. Small moments of reading add up to a lifetime of stories.']];
+let cart=[],cat='All';
+const $=id=>document.getElementById(id);
+function card(b,i){return `<div class="card"><div class="bk" style="background:${C[i%6]}"><span>${b[0]}</span><small>${b[2]}</small></div><h3>${b[0]}</h3><p><span class="tag">${b[1]}</span></p><div class="price"><b>₹${b[3]}<span class="old">₹${b[4]}</span></b><button onclick="add(${i})">Add</button></div></div>`}
+function draw(){
+ $('fav').innerHTML=[0,4,6,8].map(i=>card(B[i],i)).join('');
+ const cats=['All',...new Set(B.map(b=>b[1]))];
+ $('filters').innerHTML=cats.map(c=>`<button class="${c==cat?'on':''}" onclick="cat='${c}';draw()">${c}</button>`).join('');
+ $('all').innerHTML=B.map((b,i)=>cat=='All'||b[1]==cat?card(b,i):'').join('');
+}
+function add(i){cart.push(i);upd();toast('Added “'+B[i][0]+'” to cart')}
+function upd(){
+ $('cc').textContent=cart.length;
+ $('items').innerHTML=cart.length?cart.map((i,k)=>`<div class="li"><span>${B[i][0]}</span><span>₹${B[i][3]} <a href="#" onclick="cart.splice(${k},1);upd();return false">✕</a></span></div>`).join(''):'<p>Your cart is empty.</p>';
+ $('tot').textContent=cart.reduce((s,i)=>s+B[i][3],0);
+}
+function drawer(o){$('drawer').classList.toggle('on',!!o)}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+function order(){
+ if(!cart.length)return toast('Your cart is empty');
+ const body='Hello Find Near You,%0A%0AI would like to order:%0A'+cart.map(i=>'- '+B[i][0]+' (₹'+B[i][3]+')').join('%0A')+'%0A%0ATotal: ₹'+$('tot').textContent;
+ location.href='mailto:findnearyou@gmail.com?subject=Book Order&body='+body;
+}
+function mail(){
+ const b=`Name: ${$('n').value}%0A${$('t').value}%0A%0A${encodeURIComponent($('m').value)}`;
+ location.href='mailto:findnearyou@gmail.com?subject='+encodeURIComponent($('t').value)+'&body='+b;
+}
+function go(p){
+ document.querySelectorAll('.page').forEach(s=>s.classList.toggle('on',s.id==p));
+ document.querySelectorAll('#nav [data-p]').forEach(b=>b.classList.toggle('on',b.dataset.p==p));
+ drawer(0);window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('#nav [data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));
+function open_(i){
+ $('rt').textContent=R[i][0];$('ra').textContent='by '+R[i][1];
+ $('rb').innerHTML=R[i][2].split('\n\n').map(p=>'<p>'+p+'</p>').join('');
+ $('shelf').innerHTML=R.map((r,k)=>`<button class="${k==i?'on':''}" onclick="open_(${k})">📚 ${r[0]}</button>`).join('');
+}
+let size=1.15;function fs(d){size=Math.min(1.7,Math.max(.9,size+d*.1));$('rb').style.fontSize=size+'rem'}
+draw();upd();open_(0);
+</script>
+</body>
+</html>
